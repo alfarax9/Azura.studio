@@ -102,12 +102,21 @@
   --text-nav: 4em;
   --text-nav--line-height: 1;
 
+  /* Footer call to action. */
+  --text-cta: 4em;
+  --text-cta--line-height: 1;
+  --text-cta--letter-spacing: -0.02em;
+  --text-cta--font-weight: 500;
+
   /* The reference's smallest tier. Tailwind emits `max-*` variants in
      ascending breakpoint order, so `max-xs` lands *before* `max-md` and loses
      the cascade wherever both match. Anything that differs between the two
      mobile tiers is therefore scoped as `xs:max-md:` — a 480–767 range that
      cannot overlap `max-xs` at all. */
   --breakpoint-xs: 480px;
+  /* The reference's tablet edge (its rules read `max-width: 991px`). Tailwind's
+     own `lg` is 1024px, so it cannot express this boundary. */
+  --breakpoint-tablet: 992px;
 
   /* Layout */
   --spacing-gutter: 2.5em;
