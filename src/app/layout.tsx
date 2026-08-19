@@ -1,0 +1,83 @@
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
+import { PageTransition } from "@/components/layout/page-transition";
+import { Preloader } from "@/components/layout/preloader";
+import { Cursor } from "@/components/motion/cursor";
+import { SmoothScroll } from "@/components/providers/smooth-scroll";
+import { navigation } from "@/content/site";
+import { getSiteSettings } from "@/lib/content";
+
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://azura.studio";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "AZURA — Digital product studio",
+    template: "%s — AZURA",
+  },
+  description:
+    "AZURA is a digital product studio transforming ideas into reliable, high-impact digital products.",
+  openGraph: {
+    type: "website",
+    siteName: "AZURA",
+    url: siteUrl,
+    title: "AZURA — Digital product studio",
+    description:
+      "Transforming ideas into reliable, high-impact digital products.",
+  },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#121212",
+  colorScheme: "dark",
+};
+
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const settings = await getSiteSettings();
+
+  return (
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
+        <SmoothScroll>
+          <Preloader />
+          <PageTransition />
+          <Cursor />
+
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-200 focus:rounded-full focus:bg-cream focus:px-5 focus:py-3 focus:text-ink"
+          >
+            Skip to content
+          </a>
+
+          <Navbar items={navigation} settings={settings} />
+
+          <main id="main">{children}</main>
+
+          <Footer settings={settings} />
+        </SmoothScroll>
+      </body>
+    </html>
+  );
+}

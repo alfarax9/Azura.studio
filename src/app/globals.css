@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* -------------------------------------------------------------------------- */
+/*  Fluid sizing system                                                       */
+/*                                                                            */
+/*  The root font-size tracks the viewport, so 1em is a constant fraction of   */
+/*  the screen and the whole layout scales as one piece. Every size below is   */
+/*  expressed in em/rem against this root — that is why the design holds its   */
+/*  proportions from 390px to 1920px without per-breakpoint overrides.         */
+/*                                                                            */
+/*  font-size = container / (ideal / 16)  →  16px when the viewport equals     */
+/*  the ideal width for that tier.                                            */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --size-unit: 16;
+  --size-container-ideal: 1600;
+  --size-container-min: 992px;
+  --size-container-max: 1920px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+}
+
+@media (max-width: 991px) {
+  :root {
+    --size-container-ideal: 850;
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --size-container-ideal: 420;
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --size-container-ideal: 390;
+    --size-container-min: 320px;
+    --size-container-max: 479px;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Design tokens                                                             */
+/* -------------------------------------------------------------------------- */
+
+@theme {
+  /* Palette */
+  --color-void: #000000;
+  --color-ink: #121212;
+  --color-cream: #fdfbf8;
+  --color-off-white: #fbfbfb;
+  --color-azure: #2d62ff;
+  --color-azure-light: #d9e5ff;
+  --color-ember: #ee4b2b;
+
+  /* Semantic */
+  --color-background: var(--color-cream);
+  --color-foreground: var(--color-ink);
+  --color-muted: #6b6b6b;
+  --color-grey: #8a8a8a;
+  --color-hairline: rgba(18, 18, 18, 0.2);
+  --color-hairline-invert: rgba(253, 251, 248, 0.2);
+
+  /* Type */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Display scale — em against the fluid root, so all of it scales together. */
+  --text-display: 4em;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--font-weight: 700;
+
+  --text-headline: 3.5em;
+  --text-headline--line-height: 1.2;
+  --text-headline--letter-spacing: -0.03em;
+  --text-headline--font-weight: 500;
+
+  --text-title: 3.25em;
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.04em;
+  --text-title--font-weight: 500;
+
+  --text-subtitle: 1.5rem;
+  --text-subtitle--line-height: 1.4;
+  --text-subtitle--font-weight: 700;
+
+  --text-lead: 1.4375em;
+  --text-lead--line-height: 1.4;
+  --text-lead--letter-spacing: -0.01em;
+
+  --text-tag: 0.875em;
+  --text-tag--line-height: 1.2;
+
+  /* Layout */
+  --spacing-gutter: 2.5em;
+  --spacing-section: 7.5em;
+  --spacing-hero-top: 11em;
+  --grid-gap: 1.5em;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Base                                                                      */
+/* -------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    font-size: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Lenis drives scrolling; native smooth-scroll must stay off. */
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    overscroll-behavior-y: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-azure);
+    color: var(--color-cream);
+  }
+
+  body[data-cursor="on"],
+  body[data-cursor="on"] * {
+    cursor: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Layout utilities                                                          */
+/* -------------------------------------------------------------------------- */
+
+@utility padding-global {
+  padding-inline: var(--spacing-gutter);
+}
+
+@utility section-pad {
+  padding-block: var(--spacing-section);
+}
+
+/* The 12-column bed every section composes against. */
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--grid-gap);
+  row-gap: var(--grid-gap);
+}
+
+/* Italic uppercase eyebrow — the reference's signature section marker. */
+@utility section-tag {
+  font-size: var(--text-tag);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@utility tag-number {
+  font-size: 2em;
+  line-height: 1;
+  color: var(--color-grey);
+}
+
+@utility section-rule {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-color: var(--color-hairline);
+}
+
+@utility section-rule-invert {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-color: var(--color-hairline-invert);
+}
+
+/* Masks a line of text so its child can slide up from below the baseline. */
+@utility reveal-clip {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+/* Media overscan: the extra height is what the parallax scrubs through. */
+@utility media-overscan {
+  width: 100%;
+  height: 115%;
+  object-fit: cover;
+}
