@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
-import { CapabilityTicker } from "@/components/sections/capability-ticker";
-import { PageHeader } from "@/components/sections/page-header";
-import { ProjectGrid } from "@/components/sections/project-grid";
-import { capabilitiesTicker } from "@/content/site";
-import { getProjectSummaries } from "@/lib/content";
+import { Reveal } from "@/components/motion/reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ProjectBento } from "@/components/sections/project-bento";
+import { getProjectSummaries, getSiteSettings } from "@/lib/content";
+import { pad } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -13,23 +13,43 @@ export const metadata: Metadata = {
 };
 
 export default async function WorkPage() {
-  const projects = await getProjectSummaries();
+  const [projects, settings] = await Promise.all([
+    getProjectSummaries(),
+    getSiteSettings(),
+  ]);
 
   return (
-    <>
-      <PageHeader
-        label={`Work — ${projects.length} projects`}
-        title="Products we shaped, shipped and still stand behind"
-        lead="A short archive on purpose. Every engagement here ran end to end — research through launch — and every number quoted came from the client's own reporting."
-      />
+    <section
+      data-nav-bg="light"
+      className="relative flex flex-col justify-center overflow-hidden bg-cream pt-(--spacing-hero-top) pb-[3em] text-ink"
+    >
+      <div className="padding-global">
+        {/* Masthead on the reference's 12-column title grid. */}
+        <div className="relative z-2 grid grid-cols-12 items-start gap-[1.5em]">
+          <div className="col-span-12 flex flex-col gap-[1em] md:col-span-7">
+            <Reveal distance={10}>
+              <span className="section-rule" />
+              <p className="section-tag mt-[1.5em]">Work — {pad(projects.length)} projects</p>
+            </Reveal>
+            <TextReveal as="h1" className="text-headline">
+              Products we shaped, shipped and still stand behind
+            </TextReveal>
+          </div>
 
-      <section data-nav-bg="light" className="section-pad bg-cream text-ink">
-        <div className="padding-global">
-          <ProjectGrid projects={projects} />
+          <Reveal
+            className="col-span-12 flex flex-col items-start gap-[4em] md:col-span-4 md:col-start-9"
+            delay={0.1}
+          >
+            <p className="text-[1.0625em] leading-relaxed text-ink/70">
+              A short archive on purpose. Every engagement here ran end to end — research through
+              launch — and every number quoted came from the client&rsquo;s own reporting.
+            </p>
+            <p className="section-tag text-muted">{settings.availability}</p>
+          </Reveal>
         </div>
-      </section>
 
-      <CapabilityTicker items={capabilitiesTicker} direction={-1} className="bg-ink text-cream" />
-    </>
+        <ProjectBento projects={projects} className="mt-[5em]" />
+      </div>
+    </section>
   );
 }
