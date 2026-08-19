@@ -2,16 +2,9 @@ import { ArrowLink } from "@/components/ui/arrow-link";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionTag } from "@/components/ui/section-tag";
 import { TextReveal } from "@/components/motion/text-reveal";
-import { getSiteSettings } from "@/lib/content";
 
-/**
- * First beat after the fold. It also carries the tagline, which the hero no
- * longer states — the hero is the wordmark alone, so the positioning line has
- * to land here or it never appears on the page at all.
- */
-export async function Statement() {
-  const settings = await getSiteSettings();
-
+/** First beat after the fold: names the reader's problem before any work shows. */
+export function Statement() {
   return (
     <section data-nav-bg="light" className="section-pad bg-cream text-ink">
       <div className="padding-global">
@@ -29,7 +22,10 @@ export async function Statement() {
             className="col-span-12 flex flex-col items-start gap-[2.5em] md:col-span-4 md:col-start-9"
             delay={0.1}
           >
-            <p className="text-[1.0625em] leading-relaxed text-ink/70">{settings.tagline}</p>
+            <p className="text-[1.0625em] leading-relaxed text-ink/70">
+              We design and build digital products that hold up under real use — fast, accessible,
+              and maintainable by the team that inherits them.
+            </p>
             <p className="text-[1.0625em] leading-relaxed text-ink/70">
               No template, no handover cliff, no rebuild in eighteen months.
             </p>

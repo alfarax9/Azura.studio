@@ -1,19 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 
+import { Magnetic } from "@/components/motion/magnetic";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { BLUR } from "@/lib/media";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import type { ProjectSummary, SiteSettings } from "@/types/content";
 
 /**
- * Full-bleed hero carrying nothing but the wordmark.
+ * Full-bleed hero.
  *
- * Two gradients stack over the image: one darkens the top so the menu button
- * stays legible, the other floods the bottom with the page colour so the fold
- * dissolves into the section below instead of ending on a hard edge.
+ * A single cover image fills the viewport behind a three-stop gradient that
+ * runs dark → transparent → cream, so the section dissolves into the page
+ * below it instead of ending on a hard edge.
  */
 export function Hero({
   settings,
@@ -30,6 +33,7 @@ export function Hero({
     () => {
       if (reduced || !root.current) return;
 
+      // Slow push-in on the backdrop as the hero scrolls away.
       gsap.to("[data-hero-media]", {
         scale: 1.12,
         yPercent: 8,
@@ -49,7 +53,7 @@ export function Hero({
     <section
       ref={root}
       data-nav-bg="dark"
-      className="relative h-svh overflow-hidden bg-void max-xs:overflow-hidden"
+      className="relative h-svh overflow-hidden bg-void"
     >
       {cover && (
         <div data-hero-media className="absolute inset-0 will-change-transform">
@@ -61,23 +65,58 @@ export function Hero({
             sizes="100vw"
             placeholder="blur"
             blurDataURL={BLUR}
-            className="size-full object-cover"
+            className="object-cover"
           />
         </div>
       )}
 
+      {/* Dark at the top for the header, clear in the middle, cream at the
+          bottom so the next section begins before this one ends. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,#0009,#0000_20%)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,#0009,#0000_20%,var(--color-cream))]"
+        className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.6),rgba(0,0,0,0)_20%,var(--color-cream))]"
       />
 
-      <h1 className="text-wordmark absolute inset-x-[1rem] bottom-[1.5rem] text-center text-ink uppercase italic max-xs:static">
-        {settings.brand}
-      </h1>
+      <div className="padding-global relative grid h-full grid-rows-[auto_1fr_auto] pt-(--spacing-hero-top) pb-[3em]">
+        <span />
+
+        <div className="flex flex-col justify-end">
+          <TextReveal
+            as="h1"
+            immediate
+            delay={0.15}
+            className="max-w-[14ch] text-display text-ink"
+          >
+            {settings.tagline.replace(/\.$/, "")}
+          </TextReveal>
+        </div>
+
+        <div className="mt-[2.5em] flex flex-wrap items-end justify-between gap-[1.5em]">
+          <p className="section-tag max-w-[44ch] text-ink/70">
+            Digital product studio — {settings.location}
+          </p>
+
+          <Magnetic strength={0.3}>
+            <Link
+              href="/contact"
+              data-cursor="hover"
+              className="group inline-flex items-center gap-[0.6em] rounded-full bg-ink px-[1.6em] py-[0.8em] text-[1rem] text-cream transition-colors duration-500 hover:bg-azure"
+            >
+              Coffee?
+              <svg
+                viewBox="0 0 12 12"
+                aria-hidden="true"
+                className="size-[0.7em] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-[0.2em]"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              >
+                <path d="M2 10 10 2M4 2h6v6" />
+              </svg>
+            </Link>
+          </Magnetic>
+        </div>
+      </div>
     </section>
   );
 }
