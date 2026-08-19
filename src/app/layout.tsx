@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { BrandMark } from "@/components/layout/brand-mark";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { PageTransition } from "@/components/layout/page-transition";
@@ -71,6 +72,7 @@ export default async function RootLayout({
             Skip to content
           </a>
 
+          <BrandMark settings={settings} />
           <Navbar items={navigation} settings={settings} />
 
           <main id="main">{children}</main>
