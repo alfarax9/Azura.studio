@@ -17,20 +17,23 @@ export async function Statement() {
       <div className="padding-global">
         <SectionTag label="Sound familiar?" />
 
-        <div className="grid-12 mt-[3em]">
-          <div className="col-span-12 md:col-span-7">
+        <div className="mt-[3em] grid grid-cols-12 gap-x-[1.5rem] gap-y-[1.5em]">
+          <div className="col-span-12 flex flex-col gap-[2.5em] md:col-span-7">
             <TextReveal as="h2" className="text-title">
               You have a product. It works. It just no longer looks like the company you have
               become.
             </TextReveal>
           </div>
 
-          <Reveal className="col-span-12 md:col-span-4 md:col-start-9" delay={0.1}>
+          <Reveal
+            className="col-span-12 flex flex-col items-start gap-[2.5em] md:col-span-4 md:col-start-9"
+            delay={0.1}
+          >
             <p className="text-[1.0625em] leading-relaxed text-ink/70">{settings.tagline}</p>
-            <p className="mt-[1em] text-[1.0625em] leading-relaxed text-ink/70">
+            <p className="text-[1.0625em] leading-relaxed text-ink/70">
               No template, no handover cliff, no rebuild in eighteen months.
             </p>
-            <div className="mt-[1.5em]">
+            <div>
               <ArrowLink href="/about">More about the studio</ArrowLink>
             </div>
           </Reveal>

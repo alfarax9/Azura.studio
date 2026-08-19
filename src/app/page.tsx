@@ -1,14 +1,11 @@
 import Link from "next/link";
 
-import { CapabilityTicker } from "@/components/sections/capability-ticker";
 import { Hero } from "@/components/sections/hero";
 import { ProjectGrid } from "@/components/sections/project-grid";
-import { Showroom } from "@/components/sections/showroom";
 import { Statement } from "@/components/sections/statement";
 import { Testimonials } from "@/components/sections/testimonials";
-import { Button } from "@/components/ui/button";
-import { SectionTag } from "@/components/ui/section-tag";
-import { capabilitiesTicker, showroom } from "@/content/site";
+import { HomeSectionHeader } from "@/components/ui/home-section-header";
+import { Star } from "@/components/ui/star";
 import {
   getProjectSummaries,
   getSiteSettings,
@@ -31,25 +28,30 @@ export default async function HomePage() {
 
       <Statement />
 
-      <CapabilityTicker items={capabilitiesTicker} />
-
       <section data-nav-bg="light" className="section-pad bg-cream text-ink">
         <div className="padding-global">
-          <SectionTag label="Selected work" count={pad(projects.length)} />
+          <HomeSectionHeader
+            label="Projects"
+            title="A few things we are glad to have our name on"
+            count={pad(projects.length)}
+          />
 
-          <ProjectGrid projects={featured} className="mt-12" />
+          <ProjectGrid projects={featured} />
 
-          <div className="mt-12 flex justify-center">
-            <Button asChild variant="outline" size="lg">
-              <Link href="/work">All projects</Link>
-            </Button>
+          <div className="mt-[5em] flex justify-center">
+            <Link
+              href="/work"
+              data-cursor="hover"
+              className="group inline-flex items-center gap-[0.5em] bg-[#1212120d] py-[0.75em] pr-[1.25em] pl-[1em] text-[1.0625em] text-ink transition-colors duration-500 hover:bg-ink hover:text-cream"
+            >
+              <Star className="size-[0.75em] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:rotate-180" />
+              All projects
+            </Link>
           </div>
         </div>
       </section>
 
       <Testimonials items={testimonials} />
-
-      <Showroom items={showroom} />
     </>
   );
 }
