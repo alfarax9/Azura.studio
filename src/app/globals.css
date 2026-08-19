@@ -68,8 +68,7 @@
   --color-hairline-invert: rgba(253, 251, 248, 0.2);
 
   /* Type */
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-sans-family), ui-sans-serif, system-ui, sans-serif;
 
   /* Display scale — em against the fluid root, so all of it scales together. */
   --text-display: 4em;
@@ -101,6 +100,11 @@
   /* Drawer navigation links. */
   --text-nav: 4em;
   --text-nav--line-height: 1;
+
+  /* Hero wordmark — set as one oversized italic line across the fold. */
+  --text-wordmark: 22.3em;
+  --text-wordmark--line-height: 0.7em;
+  --text-wordmark--font-weight: 500;
 
   /* Footer call to action. */
   --text-cta: 4em;

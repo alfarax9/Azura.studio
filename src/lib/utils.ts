@@ -6,7 +6,7 @@ import { extendTailwindMerge } from "tailwind-merge";
  * custom size token (`text-display`) and a colour (`text-ink`) look like the
  * same group and one silently wins. Declaring both sets keeps them independent.
  */
-const FONT_SIZES = ["display", "headline", "title", "subtitle", "lead", "tag", "nav", "cta"];
+const FONT_SIZES = ["display", "headline", "title", "subtitle", "lead", "tag", "nav", "cta", "wordmark"];
 
 const COLORS = [
   "void",

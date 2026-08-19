@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 
 import { BrandMark } from "@/components/layout/brand-mark";
 import { Footer } from "@/components/layout/footer";
@@ -13,15 +13,13 @@ import { getSiteSettings } from "@/lib/content";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Instrument Sans ships a true italic. Geist does not, so every `font-style:
+// italic` on the site was being synthesised by the browser — tolerable at 11px,
+// but the hero wordmark sets italic at ~350px, where a faux oblique is obvious.
+const sans = Instrument_Sans({
+  variable: "--font-sans-family",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -58,7 +56,7 @@ export default async function RootLayout({
   const settings = await getSiteSettings();
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={sans.variable}>
       <body>
         <SmoothScroll>
           <Preloader />

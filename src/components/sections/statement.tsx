@@ -2,12 +2,16 @@ import { ArrowLink } from "@/components/ui/arrow-link";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionTag } from "@/components/ui/section-tag";
 import { TextReveal } from "@/components/motion/text-reveal";
+import { getSiteSettings } from "@/lib/content";
 
 /**
- * The "does this sound familiar?" beat: the eyebrow and headline sit in the
- * left half of the 12-column bed, the supporting paragraph in the right.
+ * First beat after the fold. It also carries the tagline, which the hero no
+ * longer states — the hero is the wordmark alone, so the positioning line has
+ * to land here or it never appears on the page at all.
  */
-export function Statement() {
+export async function Statement() {
+  const settings = await getSiteSettings();
+
   return (
     <section data-nav-bg="light" className="section-pad bg-cream text-ink">
       <div className="padding-global">
@@ -22,10 +26,9 @@ export function Statement() {
           </div>
 
           <Reveal className="col-span-12 md:col-span-4 md:col-start-9" delay={0.1}>
-            <p className="text-[1.0625rem] leading-relaxed text-ink/70">
-              We design and build digital products that hold up under real use — fast, accessible,
-              maintainable by the team that inherits them, and unmistakably yours. No template, no
-              handover cliff, no rebuild in eighteen months.
+            <p className="text-[1.0625em] leading-relaxed text-ink/70">{settings.tagline}</p>
+            <p className="mt-[1em] text-[1.0625em] leading-relaxed text-ink/70">
+              No template, no handover cliff, no rebuild in eighteen months.
             </p>
             <div className="mt-[1.5em]">
               <ArrowLink href="/about">More about the studio</ArrowLink>
