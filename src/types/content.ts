@@ -67,6 +67,8 @@ export type ProcessStep = {
 
 export type SiteSettings = {
   brand: string;
+  /** Oversized display lettering in the hero — separate from `brand`. */
+  wordmark: string;
   tagline: string;
   email: string;
   location: string;

@@ -69,6 +69,10 @@
 
   /* Type */
   --font-sans: var(--font-sans-family), ui-sans-serif, system-ui, sans-serif;
+  /* The hero wordmark runs on its own face. Arial ships a true italic on both
+     macOS and Windows, so the oversized lettering is never synthetically
+     slanted the way a faux-oblique would be at that size. */
+  --font-wordmark: Arial, Helvetica, sans-serif;
 
   /* Display scale — em against the fluid root, so all of it scales together. */
   --text-display: 4em;

@@ -9,6 +9,7 @@ import type {
 
 export const site: SiteSettings = {
   brand: "AZURA",
+  wordmark: "ALFARA",
   tagline: "Transforming ideas into reliable, high-impact digital products.",
   email: "hello@azura.studio",
   location: "Remote — working across CET and SEA",

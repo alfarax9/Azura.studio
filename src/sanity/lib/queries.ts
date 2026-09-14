@@ -58,6 +58,6 @@ export const processQuery = defineQuery(
 
 export const siteSettingsQuery = defineQuery(
   `*[_type == "siteSettings"][0]{
-    brand, tagline, email, location, availability, socials[]{ label, href }
+    brand, wordmark, tagline, email, location, availability, socials[]{ label, href }
   }`,
 );

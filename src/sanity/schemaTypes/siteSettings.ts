@@ -8,6 +8,12 @@ export const siteSettingsType = defineType({
   fields: [
     defineField({ name: "brand", type: "string", validation: (r) => r.required() }),
     defineField({
+      name: "wordmark",
+      type: "string",
+      description: "Oversized lettering across the bottom of the hero.",
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: "tagline",
       type: "text",
       rows: 2,
