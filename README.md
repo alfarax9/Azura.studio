@@ -1,6 +1,7 @@
 # AZURA
 
-Digital product studio site — *Transforming ideas into reliable, high-impact digital products.*
+Portfolio site for **Maulana Alfara**, fullstack and AI engineer —
+*Web products with the intelligence built in, not bolted on.*
 
 A motion-led portfolio built on Next.js App Router, modelled on the interaction
 vocabulary of high-end studio sites: a first-visit counter, smooth scroll, masked
@@ -12,13 +13,13 @@ showroom, and route-change curtains.
 | Layer | Choice | Why |
 | --- | --- | --- |
 | Framework | Next.js 16 (App Router, Turbopack) | RSC, static export of every marketing route |
-| Language | TypeScript (strict) | One content contract shared by CMS and fallback |
+| Language | TypeScript (strict) | One content contract for every page |
 | Styling | Tailwind CSS v4 | CSS-first `@theme` tokens, no JS config |
 | Primitives | Radix UI + CVA | Accessible unstyled behaviour, typed variants |
 | Transitions | Motion 13 | Presence, viewport reveals, overlays |
 | Scroll motion | GSAP 3.15 + ScrollTrigger + SplitText | Scrubbed, pinned and per-line choreography |
 | Smooth scroll | Lenis 1.3 | Wheel smoothing, driven off the GSAP ticker |
-| CMS | Sanity v6 (`next-sanity`) | Embedded Studio at `/studio`, tag-based ISR |
+| Content | Typed seed data in `src/content/` | No service to configure, no build-time fetch |
 | Forms | React Hook Form + Zod v4 | One schema validating client and server |
 | Media | Pexels today, Cloudinary-ready | `next/image` remote patterns pre-authorised |
 
@@ -29,30 +30,28 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>. **No environment variables are required** — the site
-renders fully from `src/content/`.
-
-## Environment
-
-Copy `.env.example` to `.env.local`. Every value is optional:
-
-- No `NEXT_PUBLIC_SANITY_PROJECT_ID` → local content is used and `/studio` 404s.
-- With a project id → Sanity becomes the source of truth and `/studio` mounts.
-
-If a Sanity query fails or returns nothing, the site silently falls back to local
-content rather than erroring. That behaviour lives in `src/lib/content.ts`, the
-single read surface every page uses.
+Open <http://localhost:3000>. **No environment variables are required** — the
+site renders entirely from `src/content/`. `NEXT_PUBLIC_SITE_URL` is the only
+one worth setting, and only for absolute URLs in the sitemap and OG tags.
 
 ## Content model
 
-Schemas are in `src/sanity/schemaTypes/`: `siteSettings` (singleton), `project`,
-`testimonial`, `service`, `processStep`. GROQ projections in
-`src/sanity/lib/queries.ts` resolve to the same shapes as `src/types/content.ts`,
-so components never learn where their data came from.
+All copy is seed data, typed against `src/types/content.ts`:
 
-To publish edits without a redeploy, set `SANITY_REVALIDATE_SECRET` and point a
-Sanity webhook at `POST /api/revalidate` with an `x-webhook-secret` header. The
-route purges the cache tag matching the document `_type`.
+- `src/content/site.ts` — `site` (contact and identity), `profile` (the
+  professional summary), `services`, `process`, `achievements`, `credentials`,
+  `showroom`, `capabilitiesTicker`.
+- `src/content/projects.ts` — the case studies, plus the `projectSummaries`
+  projection the index and bento read.
+
+Pages never import those modules directly. `src/lib/content.ts` is the single
+read surface, and its getters are async on purpose: a CMS or an API can be
+slotted in behind them later without touching a page.
+
+Two fields are deliberately empty in the current seed. `year` is optional
+because the source CV carries no per-project dates — set one and the index and
+case study render it. `stats` is optional because no measured outcomes were
+available to quote; fabricating them would be worse than leaving the block out.
 
 ## Geometry system
 
@@ -79,16 +78,15 @@ uppercase `section-tag` with its oversized grey `tag-number`.
 
 ```
 src/
-  app/                 routes, server action, sitemap/robots, embedded Studio
+  app/                 routes, server action, sitemap/robots
   components/
     motion/            TextReveal, Reveal, Magnetic, Marquee, Parallax, Cursor
     layout/            Navbar, Footer, Preloader, PageTransition
-    sections/          Hero, Statement, ProjectIndex, Testimonials, Showroom…
+    sections/          Hero, Statement, ProjectBento, Achievements, Credentials…
     providers/         SmoothScroll (Lenis ⇄ GSAP ticker)
     ui/                Button, ArrowLink, SectionHeading
-  content/             local fallback content and CMS seed data
+  content/             seed data — the source of truth for every page
   lib/                 gsap registration, content facade, media, hooks
-  sanity/              env, client, queries, schema, desk structure
   types/               shared content contract
 ```
 
@@ -128,6 +126,6 @@ npm run lint    # ESLint with the React Compiler rules
 
 ## Attribution
 
-Placeholder photography and video are free assets from [Pexels](https://www.pexels.com)
-under the Pexels licence. Replace them before launch. All copy is placeholder
-copy written for this template — swap it for your own before publishing.
+Photography and video are still free placeholder assets from
+[Pexels](https://www.pexels.com) under the Pexels licence — none of it shows the
+actual projects. Replace it before launch. The copy is real.

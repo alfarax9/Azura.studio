@@ -90,7 +90,7 @@ export function Hero({
         </TextReveal>
 
         <p className="text-lead mt-[0.1em] text-grey">
-          Digital product studio — {settings.location}
+          {settings.role} — {settings.location}
         </p>
       </div>
 

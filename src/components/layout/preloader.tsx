@@ -92,7 +92,7 @@ export function Preloader() {
           AZURA
         </span>
         <span data-preloader-word className="section-tag inline-block text-cream/60">
-          Studio
+          Portfolio
         </span>
       </div>
 

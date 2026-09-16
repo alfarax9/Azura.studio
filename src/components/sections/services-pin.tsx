@@ -112,7 +112,7 @@ export function ServicesPin({
         {/* Copy for the active service, pinned to the lower-left. */}
         <div className="absolute inset-x-[2.5em] bottom-[2.5em] z-3 grid grid-cols-6 gap-y-[1.5em] text-cream max-md:hidden">
           <div className="col-span-6 flex items-start gap-[0.25em]">
-            <span className="section-tag">What we do</span>
+            <span className="section-tag">What I do</span>
             <span className="section-tag">
               {pad(active + 1)} / {pad(count)}
             </span>

@@ -9,7 +9,7 @@ import { pad } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Selected product design and engineering work by AZURA — platforms, design systems and brand systems built to last.",
+    "Selected fullstack and AI engineering work by Maulana Alfara — manufacturing, emergency regulation, health and company platforms.",
 };
 
 export default async function WorkPage() {
@@ -32,7 +32,7 @@ export default async function WorkPage() {
               <p className="section-tag mt-[1.5em]">Work — {pad(projects.length)} projects</p>
             </Reveal>
             <TextReveal as="h1" className="text-headline">
-              Products we shaped, shipped and still stand behind
+              Things I built, and what I was responsible for
             </TextReveal>
           </div>
 
@@ -41,8 +41,8 @@ export default async function WorkPage() {
             delay={0.1}
           >
             <p className="text-[1.0625em] leading-relaxed text-ink/70">
-              A short archive on purpose. Every engagement here ran end to end — research through
-              launch — and every number quoted came from the client&rsquo;s own reporting.
+              A short archive on purpose. Each entry names the role I actually held and the stack
+              it ran on, so you can tell the AI work from the fullstack work at a glance.
             </p>
             <p className="section-tag text-muted">{settings.availability}</p>
           </Reveal>

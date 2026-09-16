@@ -7,9 +7,9 @@ import { enquirySchema, type EnquiryInput, type EnquiryResult } from "@/lib/enqu
 /**
  * Receives a project enquiry.
  *
- * Delivery is intentionally pluggable: drop in Resend, Postmark or a Sanity
- * document write where the TODO sits. Validation, honeypot and error shape stay
- * the same regardless of transport.
+ * Delivery is intentionally pluggable: drop in Resend, Postmark or any other
+ * transport where the TODO sits. Validation, honeypot and error shape stay the
+ * same regardless.
  */
 export async function submitEnquiry(input: EnquiryInput): Promise<EnquiryResult> {
   const parsed = enquirySchema.safeParse(input);
@@ -26,7 +26,7 @@ export async function submitEnquiry(input: EnquiryInput): Promise<EnquiryResult>
   if (parsed.data.website) return { ok: true };
 
   try {
-    // TODO: wire an email provider or CMS write here.
+    // TODO: wire an email provider here.
     console.info("[enquiry]", {
       name: parsed.data.name,
       email: parsed.data.email,
@@ -40,7 +40,7 @@ export async function submitEnquiry(input: EnquiryInput): Promise<EnquiryResult>
     console.error("[enquiry] delivery failed", error);
     return {
       ok: false,
-      message: "Something went wrong on our side. Email us directly and we will pick it up.",
+      message: "Something went wrong on my side. Email me directly and I will pick it up.",
     };
   }
 }

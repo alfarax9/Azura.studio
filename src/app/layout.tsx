@@ -27,18 +27,18 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://azura.studio";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "AZURA — Digital product studio",
+    default: "AZURA — Maulana Alfara, Fullstack & AI Engineer",
     template: "%s — AZURA",
   },
   description:
-    "AZURA is a digital product studio transforming ideas into reliable, high-impact digital products.",
+    "Maulana Alfara — fullstack and AI engineer. Next.js, Laravel and Node.js, with business rules, machine learning and LLM retrieval working as one system.",
   openGraph: {
     type: "website",
     siteName: "AZURA",
     url: siteUrl,
-    title: "AZURA — Digital product studio",
+    title: "AZURA — Maulana Alfara, Fullstack & AI Engineer",
     description:
-      "Transforming ideas into reliable, high-impact digital products.",
+      "Web products with the intelligence built in, not bolted on.",
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },

@@ -38,7 +38,7 @@ export function ContactForm() {
       if (result.ok) {
         setSent(true);
         reset();
-        toast.success("Thanks — we'll reply within two working days.");
+        toast.success("Thanks — I'll reply within two working days.");
       } else {
         toast.error(result.message);
       }
@@ -52,7 +52,7 @@ export function ContactForm() {
           Message received.
         </p>
         <p className="mt-4 max-w-[46ch] text-[1.0625rem] text-ink/70">
-          We read every enquiry ourselves and reply within two working days — usually with a couple
+          I read every message myself and reply within two working days — usually with a couple
           of questions before anything else.
         </p>
         <Button className="mt-8" variant="outline" onClick={() => setSent(false)}>

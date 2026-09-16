@@ -37,7 +37,7 @@ export function AboutHero({ image, location }: { image: ImageAsset; location: st
         />
 
         <div className="relative mx-auto flex w-full max-w-[var(--size-container)] flex-col items-end justify-end gap-[0.15em] px-(--spacing-gutter) pb-[2em] text-cream">
-          <span className="section-tag">Where we work</span>
+          <span className="section-tag">Where I work</span>
           <span className="text-[1.0625em] leading-[135%]">{location}</span>
         </div>
       </div>

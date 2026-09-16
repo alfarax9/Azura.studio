@@ -125,7 +125,9 @@ function BentoCard({ project, ratio }: { project: ProjectSummary; ratio: string 
           <div className="flex flex-col gap-[0.5em] text-cream">
             <div className="flex items-center justify-between gap-[1em]">
               <span className="text-subtitle">{project.title}</span>
-              <span className="text-[1.0625em] font-medium">{project.year}</span>
+              {project.year && (
+                <span className="text-[1.0625em] font-medium">{project.year}</span>
+              )}
             </div>
             <div className="flex items-center justify-between gap-[1em]">
               <span className="text-[0.9375em] text-cream/80">{project.headline}</span>

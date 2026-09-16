@@ -97,7 +97,7 @@ function ProjectCard({ project }: { project: ProjectSummary }) {
           <div className="flex flex-1 flex-col gap-[0.5em] text-cream">
             <div className="flex items-center justify-between">
               <span className="text-subtitle">{project.title}</span>
-              <span className="section-tag">{project.year}</span>
+              {project.year && <span className="section-tag">{project.year}</span>}
             </div>
             <div className="flex items-center justify-between gap-[1em]">
               <span className="text-[0.9375em] text-cream/80">{project.headline}</span>

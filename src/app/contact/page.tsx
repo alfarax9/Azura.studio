@@ -10,7 +10,7 @@ import { getSiteSettings } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Start a project with AZURA. Tell us what you are building and we will reply within two working days.",
+    "Get in touch with Maulana Alfara. Tell me what you are building and I will reply within two working days.",
 };
 
 export default async function ContactPage() {
@@ -20,7 +20,7 @@ export default async function ContactPage() {
     <>
       <PageHeader
         label="Contact"
-        title="Tell us what you are building"
+        title="Tell me what you are building"
         lead="Skip the brief if you do not have one. A paragraph about the problem is a better starting point than a spec."
       />
 
@@ -38,6 +38,18 @@ export default async function ContactPage() {
                   className="group mt-2 inline-block text-[1.0625rem]"
                 >
                   {settings.email}
+                  <span className="mt-0.5 block h-px w-full origin-left scale-x-0 bg-ink transition-transform duration-600 ease-[var(--ease-out-expo)] group-hover:scale-x-100" />
+                </a>
+              </div>
+
+              <div>
+                <p className="section-tag text-muted">Phone</p>
+                <a
+                  href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                  data-cursor="hover"
+                  className="group mt-2 inline-block text-[1.0625rem]"
+                >
+                  {settings.phone}
                   <span className="mt-0.5 block h-px w-full origin-left scale-x-0 bg-ink transition-transform duration-600 ease-[var(--ease-out-expo)] group-hover:scale-x-100" />
                 </a>
               </div>

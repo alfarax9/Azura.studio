@@ -1,23 +1,25 @@
 import Link from "next/link";
 
+import { Achievements } from "@/components/sections/achievements";
 import { Hero } from "@/components/sections/hero";
 import { ProjectGrid } from "@/components/sections/project-grid";
 import { Statement } from "@/components/sections/statement";
-import { Testimonials } from "@/components/sections/testimonials";
 import { HomeSectionHeader } from "@/components/ui/home-section-header";
 import { Star } from "@/components/ui/star";
 import {
+  getAchievements,
+  getProfile,
   getProjectSummaries,
   getSiteSettings,
-  getTestimonials,
 } from "@/lib/content";
 import { pad } from "@/lib/utils";
 
 export default async function HomePage() {
-  const [settings, projects, testimonials] = await Promise.all([
+  const [settings, profile, projects, achievements] = await Promise.all([
     getSiteSettings(),
+    getProfile(),
     getProjectSummaries(),
-    getTestimonials(),
+    getAchievements(),
   ]);
 
   const featured = projects.slice(0, 4);
@@ -26,13 +28,13 @@ export default async function HomePage() {
     <>
       <Hero settings={settings} projects={projects} />
 
-      <Statement />
+      <Statement profile={profile} />
 
       <section data-nav-bg="light" className="section-pad bg-cream text-ink">
         <div className="padding-global">
           <HomeSectionHeader
             label="Projects"
-            title="A few things we are glad to have our name on"
+            title="A few things I am glad to have my name on"
             count={pad(projects.length)}
           />
 
@@ -51,7 +53,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <Testimonials items={testimonials} />
+      <Achievements items={achievements} />
     </>
   );
 }

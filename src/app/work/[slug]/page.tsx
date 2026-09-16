@@ -9,8 +9,6 @@ import { Star } from "@/components/ui/star";
 import { getAdjacentProjects, getProject, getProjectSlugs } from "@/lib/content";
 import { BLUR } from "@/lib/media";
 
-export const revalidate = 60;
-
 export async function generateStaticParams() {
   const slugs = await getProjectSlugs();
   return slugs.map((slug) => ({ slug }));
@@ -48,10 +46,11 @@ export default async function ProjectPage({
   const { next } = await getAdjacentProjects(slug);
 
   const info = [
+    { label: "Role", value: project.role },
     { label: "Client", value: project.client },
+    { label: "Discipline", value: project.discipline },
     { label: "Year", value: project.year },
     { label: "Timeline", value: project.timeline },
-    { label: "Discipline", value: project.discipline },
   ].filter((item) => Boolean(item.value));
 
   return (
@@ -116,11 +115,27 @@ export default async function ProjectPage({
 
                 {project.services?.length > 0 && (
                   <div className="col-span-2 flex flex-col gap-[0.25em]">
-                    <span className="project-tag">Services</span>
+                    <span className="project-tag">Contribution</span>
                     <ul className="flex flex-col">
                       {project.services.map((service) => (
                         <li key={service} className="text-[1.0625em] font-medium">
                           {service}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {project.stack?.length > 0 && (
+                  <div className="col-span-2 flex flex-col gap-[0.5em]">
+                    <span className="project-tag">Stack</span>
+                    <ul className="flex flex-wrap gap-[0.5em]">
+                      {project.stack.map((item) => (
+                        <li
+                          key={item}
+                          className="rounded-full border border-hairline px-[0.9em] py-[0.35em] text-[0.8125em] text-ink/70"
+                        >
+                          {item}
                         </li>
                       ))}
                     </ul>
@@ -142,9 +157,9 @@ export default async function ProjectPage({
             </div>
           </div>
 
-          {project.stats?.length > 0 && (
+          {(project.stats?.length ?? 0) > 0 && (
             <div className="mt-[5em] grid grid-cols-1 gap-[1.5em] border-y border-hairline py-[2.5em] sm:grid-cols-3">
-              {project.stats.map((stat, i) => (
+              {project.stats?.map((stat, i) => (
                 <Reveal key={stat.label} delay={i * 0.08}>
                   <p className="text-headline">{stat.value}</p>
                   <p className="project-tag mt-[0.5em]">{stat.label}</p>
@@ -225,7 +240,7 @@ export default async function ProjectPage({
                     {next.title}
                   </span>
                 </span>
-                <span className="text-[1.0625em] font-medium">{next.year}</span>
+                <span className="text-[1.0625em] font-medium">{next.role}</span>
               </Link>
             </div>
           </div>
