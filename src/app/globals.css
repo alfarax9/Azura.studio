@@ -1,166 +1,133 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
-/* -------------------------------------------------------------------------- */
-/*  Fluid sizing system                                                       */
-/*                                                                            */
-/*  The root font-size tracks the viewport, so 1em is a constant fraction of   */
-/*  the screen and the whole layout scales as one piece. Every size below is   */
-/*  expressed in em/rem against this root — that is why the design holds its   */
-/*  proportions from 390px to 1920px without per-breakpoint overrides.         */
-/*                                                                            */
-/*  font-size = container / (ideal / 16)  →  16px when the viewport equals     */
-/*  the ideal width for that tier.                                            */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Design tokens
 
-:root {
-  --size-unit: 16;
-  --size-container-ideal: 1600;
-  --size-container-min: 992px;
-  --size-container-max: 1920px;
-  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
-}
-
-@media (max-width: 991px) {
-  :root {
-    --size-container-ideal: 850;
-    --size-container-min: 768px;
-    --size-container-max: 991px;
-  }
-}
-
-@media (max-width: 767px) {
-  :root {
-    --size-container-ideal: 420;
-    --size-container-min: 480px;
-    --size-container-max: 767px;
-  }
-}
-
-@media (max-width: 479px) {
-  :root {
-    --size-container-ideal: 390;
-    --size-container-min: 320px;
-    --size-container-max: 479px;
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Design tokens                                                             */
-/* -------------------------------------------------------------------------- */
+   Every value the components are allowed to use lives here. No component
+   contains a hex value; they reference these through Tailwind utilities that
+   compile down to the custom properties below.
+   ========================================================================== */
 
 @theme {
-  /* Palette */
-  --color-void: #000000;
-  --color-ink: #121212;
-  --color-cream: #fdfbf8;
-  --color-off-white: #fbfbfb;
-  --color-azure: #2d62ff;
-  --color-azure-light: #d9e5ff;
-  --color-ember: #ee4b2b;
+  /* --- Breakpoints (Apple's) ------------------------------------------- */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 734px;
+  --breakpoint-md: 1068px;
+  --breakpoint-lg: 1440px;
 
-  /* Semantic */
-  --color-background: var(--color-cream);
-  --color-foreground: var(--color-ink);
-  --color-muted: #6b6b6b;
-  --color-grey: #8a8a8a;
-  --color-hairline: rgba(18, 18, 18, 0.2);
-  --color-hairline-invert: rgba(253, 251, 248, 0.2);
+  /* --- Surfaces --------------------------------------------------------- */
+  --color-canvas: #202124;
+  --color-card: #282a2d;
+  --color-elevated: #2d2f31;
+  --color-hairline: #3c4043;
 
-  /* Type */
-  --font-sans: var(--font-sans-family), ui-sans-serif, system-ui, sans-serif;
-  /* The hero wordmark runs on its own face. Arial ships a true italic on both
-     macOS and Windows, so the oversized lettering is never synthetically
-     slanted the way a faux-oblique would be at that size. */
-  --font-wordmark: Arial, Helvetica, sans-serif;
+  /* --- Text ------------------------------------------------------------- */
+  --color-primary: #ffffff;
+  --color-secondary: #9aa0a6;
 
-  /* Display scale — em against the fluid root, so all of it scales together. */
-  --text-display: 4em;
-  --text-display--line-height: 1.1;
-  --text-display--letter-spacing: -0.04em;
-  --text-display--font-weight: 700;
+  /* --- Accents (used sparingly) ----------------------------------------- */
+  /* Status dot and focus ring only. Fails AA as a fill behind white text. */
+  --color-blue: #4285f4;
+  --color-blue-fill: #1a73e8;
+  --color-blue-fill-hover: #1967d2;
+  /* Text links on dark surfaces. */
+  --color-link: #8ab4f8;
+  /* Metric indicator only. 2.4:1 on card — never legible as text. */
+  --color-red: #bb2533;
 
-  --text-headline: 3.5em;
-  --text-headline--line-height: 1.2;
-  --text-headline--letter-spacing: -0.03em;
-  --text-headline--font-weight: 500;
+  /* --- Type ------------------------------------------------------------- */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--font-inter),
+    system-ui, sans-serif;
 
-  --text-title: 3.25em;
-  --text-title--line-height: 1.2;
-  --text-title--letter-spacing: -0.04em;
-  --text-title--font-weight: 500;
+  --text-hero: clamp(2.75rem, 7vw, 5.5rem);
+  --text-hero--font-weight: 700;
+  --text-hero--letter-spacing: -0.03em;
+  --text-hero--line-height: 1.05;
 
-  --text-subtitle: 1.5rem;
-  --text-subtitle--line-height: 1.4;
-  --text-subtitle--font-weight: 700;
+  --text-section: clamp(2.25rem, 5vw, 3.75rem);
+  --text-section--font-weight: 600;
+  --text-section--letter-spacing: -0.025em;
+  --text-section--line-height: 1.08;
 
-  --text-lead: 1.4375em;
-  --text-lead--line-height: 1.4;
-  --text-lead--letter-spacing: -0.01em;
+  --text-feature: clamp(1.75rem, 3vw, 2.5rem);
+  --text-feature--font-weight: 600;
+  --text-feature--letter-spacing: -0.02em;
+  --text-feature--line-height: 1.1;
 
-  --text-tag: 0.875em;
-  --text-tag--line-height: 1.2;
+  --text-card-title: 1.5rem;
+  --text-card-title--font-weight: 600;
+  --text-card-title--letter-spacing: -0.015em;
+  --text-card-title--line-height: 1.2;
 
-  /* Drawer navigation links. */
-  --text-nav: 4em;
+  --text-intro: clamp(1.25rem, 2vw, 1.625rem);
+  --text-intro--font-weight: 500;
+  --text-intro--letter-spacing: -0.015em;
+  --text-intro--line-height: 1.35;
+
+  --text-body: 1.0625rem;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: -0.022em;
+  --text-body--line-height: 1.47;
+
+  --text-eyebrow: 1.0625rem;
+  --text-eyebrow--font-weight: 600;
+  --text-eyebrow--letter-spacing: -0.022em;
+  --text-eyebrow--line-height: 1.3;
+
+  --text-meta: 0.875rem;
+  --text-meta--font-weight: 400;
+  --text-meta--letter-spacing: -0.016em;
+  --text-meta--line-height: 1.43;
+
+  --text-nav: 0.75rem;
+  --text-nav--font-weight: 400;
+  --text-nav--letter-spacing: -0.01em;
   --text-nav--line-height: 1;
 
-  /* Hero wordmark — set as one oversized italic line across the fold. */
-  --text-wordmark: 22.3em;
-  --text-wordmark--line-height: 0.7em;
-  --text-wordmark--font-weight: 500;
+  --text-metric: clamp(4rem, 8vw, 6rem);
+  --text-metric--font-weight: 700;
+  --text-metric--letter-spacing: -0.04em;
+  --text-metric--line-height: 1;
 
-  /* Footer call to action. */
-  --text-cta: 4em;
-  --text-cta--line-height: 1;
-  --text-cta--letter-spacing: -0.02em;
-  --text-cta--font-weight: 500;
+  /* --- Shape ------------------------------------------------------------ */
+  --radius-card: 28px;
+  --radius-card-sm: 24px;
+  --radius-image: 18px;
+  --radius-pill: 9999px;
 
-  /* The reference's smallest tier. Tailwind emits `max-*` variants in
-     ascending breakpoint order, so `max-xs` lands *before* `max-md` and loses
-     the cascade wherever both match. Anything that differs between the two
-     mobile tiers is therefore scoped as `xs:max-md:` — a 480–767 range that
-     cannot overlap `max-xs` at all. */
-  --breakpoint-xs: 480px;
-  /* The reference's tablet edge (its rules read `max-width: 991px`). Tailwind's
-     own `lg` is 1024px, so it cannot express this boundary. */
-  --breakpoint-tablet: 992px;
-
-  /* Layout */
-  --spacing-gutter: 2.5em;
-  --spacing-section: 7.5em;
-  --spacing-hero-top: 11em;
-  --grid-gap: 1.5em;
-
-  /* Motion */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  /* --- Motion ----------------------------------------------------------- */
+  --ease-out-quint: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Base                                                                      */
-/* -------------------------------------------------------------------------- */
+/* Large cards tighten below the first breakpoint. */
+@media (width < 734px) {
+  :root {
+    --radius-card: 20px;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
 @layer base {
   html {
-    font-size: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Lenis drives scrolling; native smooth-scroll must stay off. */
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-  .lenis.lenis-stopped {
-    overflow: hidden;
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--color-ink);
-    color: var(--color-ink);
+    background-color: var(--color-canvas);
+    color: var(--color-primary);
     font-family: var(--font-sans);
-    overscroll-behavior-y: none;
+  }
+
+  /* Anchored sections must clear the 52px fixed bar. */
+  section[id],
+  footer[id] {
+    scroll-margin-top: 72px;
   }
 
   h1,
@@ -171,103 +138,88 @@
     text-wrap: balance;
   }
 
-  ::selection {
-    background-color: var(--color-azure);
-    color: var(--color-cream);
+  p {
+    text-wrap: pretty;
   }
 
-  body[data-cursor="on"],
-  body[data-cursor="on"] * {
-    cursor: none;
+  :focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
     *,
     *::before,
     *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
     }
   }
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Layout utilities                                                          */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Layout utilities
+   ========================================================================== */
 
-@utility padding-global {
-  padding-inline: var(--spacing-gutter);
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1200px;
+  padding-inline: 24px;
+
+  @media (width >= 734px) {
+    padding-inline: 40px;
+  }
 }
 
+/* Vertical rhythm: 96 → 140 → 180 across the three breakpoints. */
 @utility section-pad {
-  padding-block: var(--spacing-section);
+  padding-block: 96px;
+
+  @media (width >= 734px) {
+    padding-block: 140px;
+  }
+  @media (width >= 1068px) {
+    padding-block: 180px;
+  }
 }
 
-/* The 12-column bed every section composes against. */
-@utility grid-12 {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--grid-gap);
-  row-gap: var(--grid-gap);
+/* The gap between a section heading and the content it introduces. */
+@utility section-gap {
+  margin-top: 40px;
+
+  @media (width >= 1068px) {
+    margin-top: 64px;
+  }
 }
 
-/* Italic uppercase eyebrow — the reference's signature section marker. */
-@utility section-tag {
-  font-size: var(--text-tag);
-  font-style: italic;
-  font-weight: 500;
-  line-height: 1.2;
-  text-transform: uppercase;
+/* ==========================================================================
+   Hero load animation
+
+   The only motion on the page. Elements start 16px low and rise into place;
+   the stagger is set per element with `rise-delay-*`.
+   ========================================================================== */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@utility project-tag {
-  color: var(--color-grey);
-  font-size: 0.875em;
-  font-style: italic;
-  font-weight: 500;
-  line-height: 1;
-  text-transform: uppercase;
+@utility rise {
+  opacity: 0;
+  animation: rise 700ms var(--ease-out-quint) both;
 }
 
-@utility tag-number {
-  font-size: 2em;
-  line-height: 1;
-  color: var(--color-grey);
-}
-
-@utility section-rule {
-  display: block;
-  height: 1px;
-  width: 100%;
-  background-color: var(--color-hairline);
-}
-
-@utility section-rule-invert {
-  display: block;
-  height: 1px;
-  width: 100%;
-  background-color: var(--color-hairline-invert);
-}
-
-/* Masks a line of text so its child can slide up from below the baseline. */
-@utility reveal-clip {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-}
-
-@utility marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-/* Media overscan: the extra height is what the parallax scrubs through. */
-@utility media-overscan {
-  width: 100%;
-  height: 115%;
-  object-fit: cover;
+@utility rise-delay-* {
+  animation-delay: calc(--value(integer) * 1ms);
 }

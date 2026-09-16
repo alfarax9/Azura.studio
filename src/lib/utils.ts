@@ -3,25 +3,34 @@ import { extendTailwindMerge } from "tailwind-merge";
 
 /**
  * tailwind-merge classifies any unrecognised `text-*` class as a colour, so a
- * custom size token (`text-display`) and a colour (`text-ink`) look like the
- * same group and one silently wins. Declaring both sets keeps them independent.
+ * size token (`text-body`) and a colour (`text-secondary`) look like the same
+ * group and one silently wins. Declaring both sets keeps them independent.
  */
-const FONT_SIZES = ["display", "headline", "title", "subtitle", "lead", "tag", "nav", "cta", "wordmark"];
+const FONT_SIZES = [
+  "hero",
+  "section",
+  "feature",
+  "card-title",
+  "intro",
+  "body",
+  "eyebrow",
+  "meta",
+  "nav",
+  "metric",
+];
 
 const COLORS = [
-  "void",
-  "ink",
-  "cream",
-  "off-white",
-  "azure",
-  "azure-light",
-  "ember",
-  "muted",
-  "grey",
-  "background",
-  "foreground",
+  "canvas",
+  "card",
+  "elevated",
   "hairline",
-  "hairline-invert",
+  "primary",
+  "secondary",
+  "blue",
+  "blue-fill",
+  "blue-fill-hover",
+  "link",
+  "red",
 ];
 
 const twMerge = extendTailwindMerge({
@@ -37,9 +46,4 @@ const twMerge = extendTailwindMerge({
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-/** "01", "02" … used for the numbered index labels across the site. */
-export function pad(n: number, width = 2) {
-  return String(n).padStart(width, "0");
 }
